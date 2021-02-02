@@ -14,8 +14,6 @@
 
 set -xe
 
-#Default wait timeout is 3600 seconds
-export TIMEOUT=${TIMEOUT:-3600}
 export KUBECONFIG=${KUBECONFIG:-"$HOME/.airship/kubeconfig"}
 export KUBECONFIG_EPHEMERAL_CONTEXT=${KUBECONFIG_EPHEMERAL_CONTEXT:-"ephemeral-cluster"}
 
@@ -23,24 +21,7 @@ echo "Deploy ephemeral node using redfish with iso"
 airshipctl phase run remotedirect-ephemeral --debug
 
 echo "Wait for apiserver to become available"
-N=0
-MAX_RETRY=30
-DELAY=60
-until [ "$N" -ge ${MAX_RETRY} ]
-do
-  if timeout 20 kubectl --kubeconfig $KUBECONFIG --context $KUBECONFIG_EPHEMERAL_CONTEXT get node; then
-      break
-  fi
-
-  N=$((N+1))
-  echo "$N: Retrying to reach the apiserver"
-  sleep ${DELAY}
-done
-
-if [ "$N" -ge ${MAX_RETRY} ]; then
-  echo "Could not reach the apiserver"
-  exit 1
-fi
+airshipctl phase run kubectl-get-node
 
 echo "List all pods"
 kubectl --kubeconfig $KUBECONFIG --context $KUBECONFIG_EPHEMERAL_CONTEXT get pods --all-namespaces

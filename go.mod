@@ -20,6 +20,7 @@ require (
 	github.com/go-git/go-git-fixtures/v4 v4.0.1
 	github.com/go-git/go-git/v5 v5.0.0
 	github.com/go-logr/zapr v0.1.1 // indirect
+	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
 	github.com/gophercloud/gophercloud v0.6.0 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20191106031601-ce3c9ade29de // indirect
 	github.com/gorilla/mux v1.7.4 // indirect

@@ -68,6 +68,21 @@ config: |
     cmd: encrypt
     unencrypted-regex: '^(kind|apiVersion|group|metadata)$'
 ---
+apiVersion: airshipit.org/v1alpha1
+kind: GenericContainer
+metadata:
+  name: kubectl_get_node
+  labels:
+    airshipit.org/deploy-k8s: "false"
+spec:
+  type: krm
+  image: quay.io/vladiskuz/kubectl:v2.1
+  hostNetwork: true
+config: |
+  kubectlCommand: "get node"
+  maxRetry: 30
+  checkInterval: 60
+---
 # This executor launchs a bootstrap container, which creates
 # an Azure Kubernetes Service (AKS) cluster
 apiVersion: airshipit.org/v1alpha1
